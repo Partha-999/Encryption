@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decrypt File</title>
+    <style>
+        body {
+            background-color: hsl(289, 66%, 82%);
+        }
+    </style>
+</head>
+<body>
+    <h2>Enter Decryption Key for {{ filename }}</h2>
+    <form action="/decrypt/{{ filename }}" method="POST">
+        <label for="key">Decryption Key:</label>
+        <input type="text" id="key" name="key" required>
+        <button type="submit">Decrypt</button>
+    </form>
+</body>
+</html>
