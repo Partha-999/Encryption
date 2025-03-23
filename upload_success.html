@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Encryption Success</title>
+</head>
+<body>
+    <h1>File Encrypted and Uploaded Successfully!</h1>
+    <p>Your encrypted file has been saved as: <strong>{{ filename }}</strong></p>
+    
+    <h2>Decryption Key</h2>
+    <p>Here is your decryption key:</p>
+    <p><strong>{{ decryption_key }}</strong></p>
+    <p>Share this key with your friend to allow them to decrypt the file.</p>
+
+    <h2>Download Encrypted File</h2>
+    <p><a href="/uploads/{{ filename }}" download>Click here to download the encrypted file</a></p>
+
+    <h2>Decryption Instructions</h2>
+    <p>If you or someone else wants to decrypt the file, use the following link:</p>
+    <p><a href="/decrypt/{{ filename|replace(' ', '%20') }}?key={{ decryption_key }}" target="_blank">Decrypt File</a></p>
+</body>
+</html>
+ 
