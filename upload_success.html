@@ -3,33 +3,178 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>File Encryption Success</title>
+    <title>File Encrypted Successfully</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Apply background color to the entire page */
-        body {
-            background-color: hsl(91, 69%, 82%);
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 20px;
+        @keyframes confetti {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
         }
-        </style>
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            opacity: 0;
+            animation: confetti 5s ease-out forwards;
+        }
+        .animate-bounce-in {
+            animation: bounceIn 0.6s ease-out forwards;
+        }
+        @keyframes bounceIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
 </head>
-<body>
-     
-    <h1>File Encrypted and Uploaded Successfully!</h1>
-    <p>Your encrypted file has been saved as: <strong>{{ filename }}</strong></p>
-    
-    <h2>Decryption Key</h2>
-    <p>Here is your decryption key:</p>
-    <p><strong>{{ decryption_key }}</strong></p>
-    <p>Share this key with your friend to allow them to decrypt the file.</p>
+<body class="bg-gray-50 font-inter">
+    <!-- Success Hero Section -->
+    <section class="relative bg-gradient-to-r from-green-500 to-emerald-600 min-h-[40vh] flex items-center justify-center">
+        <div class="absolute inset-0 bg-black/20"></div>
+        <div class="container mx-auto px-4 z-10 text-center text-white">
+            <div class="bg-white/20 p-4 rounded-full inline-block mb-6 animate-bounce-in">
+                <i class="fas fa-check-circle text-5xl"></i>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold mb-4 font-poppins">Encryption Complete!</h1>
+            <p class="text-xl md:text-2xl">Your file is now securely encrypted</p>
+        </div>
+    </section>
 
-    <h2>Download Encrypted File</h2>
-    <p><a href="/uploads/{{ filename }}" download>Click here to download the encrypted file</a></p>
+    <!-- Success Card -->
+    <main class="container mx-auto px-4 py-12 -mt-16">
+        <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden animate-bounce-in" style="animation-delay: 0.2s">
+            <div class="p-8">
+                <div class="flex items-center mb-8">
+                    <div class="bg-green-100 p-3 rounded-full mr-4">
+                        <i class="fas fa-file-shield text-green-600 text-2xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800 font-poppins">Your Secure File</h2>
+                </div>
 
-    <h2>Decryption Instructions</h2>
-    <p>If you or someone else wants to decrypt the file, use the following link:</p>
-    <p><a href="/decrypt/{{ filename|replace(' ', '%20') }}?key={{ decryption_key }}" target="_blank">Decrypt File</a></p>
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-sm font-medium text-gray-500 mb-1">Encrypted File</h3>
+                        <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+                            <i class="fas fa-file-alt text-gray-400 mr-3"></i>
+                            <span class="font-medium">{{ filename }}</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-sm font-medium text-gray-500 mb-1">Decryption Key</h3>
+                        <div class="p-3 bg-gray-50 rounded-lg relative group">
+                            <div class="flex items-center">
+                                <i class="fas fa-key text-gray-400 mr-3"></i>
+                                <span class="font-mono select-all">{{ decryption_key }}</span>
+                            </div>
+                            <div class="absolute right-3 top-3">
+                                <button onclick="copyKey()" class="text-gray-400 hover:text-blue-600 transition" title="Copy Key">
+                                    <i class="far fa-copy"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-2">This key is required to decrypt your file. Save it securely!</p>
+                    </div>
+
+                    <div class="pt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <a href="/uploads/{{ filename }}" download class="btn-download">
+                            <i class="fas fa-download mr-2"></i> Download Encrypted File
+                        </a>
+                        <a href="/decrypt/{{ filename }}?key={{ decryption_key }}" class="btn-decrypt">
+                            <i class="fas fa-unlock mr-2"></i> Decrypt Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Next Steps -->
+    <section class="bg-gray-50 py-12">
+        <div class="container mx-auto px-4 max-w-3xl">
+            <h2 class="text-2xl font-bold text-center mb-8 font-poppins">What's Next?</h2>
+            <div class="bg-white p-6 rounded-lg shadow-sm">
+                <div class="flex items-start mb-4">
+                    <div class="bg-blue-100 p-2 rounded-full mr-4">
+                        <i class="fas fa-share-alt text-blue-600"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold mb-1">Share Securely</h3>
+                        <p class="text-gray-600">Send the encrypted file and decryption key through different channels for maximum security.</p>
+                    </div>
+                </div>
+                <div class="flex items-start mb-4">
+                    <div class="bg-purple-100 p-2 rounded-full mr-4">
+                        <i class="fas fa-history text-purple-600"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold mb-1">Access History</h3>
+                        <p class="text-gray-600">View your encryption history and manage files in your dashboard.</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <div class="bg-yellow-100 p-2 rounded-full mr-4">
+                        <i class="fas fa-question-circle text-yellow-600"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold mb-1">Need Help?</h3>
+                        <p class="text-gray-600">Visit our help center for decryption instructions and troubleshooting.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4 text-center">
+            <p>© 2025 Secure File Encryption. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Generate confetti
+        function createConfetti() {
+            const colors = ['#f00', '#0f0', '#00f', '#ff0', '#f0f', '#0ff'];
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDelay = Math.random() * 5 + 's';
+                document.body.appendChild(confetti);
+            }
+        }
+
+        // Copy decryption key
+        function copyKey() {
+            const key = '{{ decryption_key }}';
+            navigator.clipboard.writeText(key).then(() => {
+                const copyBtn = document.querySelector('[title="Copy Key"]');
+                copyBtn.innerHTML = '<i class="fas fa-check"></i>';
+                setTimeout(() => {
+                    copyBtn.innerHTML = '<i class="far fa-copy"></i>';
+                }, 2000);
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            createConfetti();
+            
+            // Style buttons
+            const btnDownload = document.querySelector('.btn-download');
+            const btnDecrypt = document.querySelector('.btn-decrypt');
+            
+            btnDownload.className = 'flex items-center justify-center bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-4 rounded-lg transition duration-200';
+            btnDecrypt.className = 'flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition duration-200';
+        });
+    </script>
 </body>
 </html>
- 
